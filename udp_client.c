@@ -33,23 +33,18 @@ int main(int argc, char *argv[])
 	serv_addr.sin_addr.s_addr=inet_addr(argv[1]);
 	serv_addr.sin_port = htons(atoi(argv[2]));
 	
-	///////////여기부터 계속
-	sendto(clint_sock,msg1,strlen(msg1),0,
+	sendto(clint_sock,msg1,strlen(msg1),0,(struct sockaddr*)&serv_addr,sizeof(serv_addr));
+	sendto(clint_sock,msg2,strlen(msg2),0,(struct sockaddr*)&serv_addr,sizeof(serv_addr));
+	sendto(clint_sock,msg3,strlen(msg3),0,(struct sockaddr*)&serv_addr,sizeof(serv_addr));
 	
-
-	if(bind(serv_sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr))==-1)
+	for(i=0;i<3;i++)
 	{
-		error_handling("bind() error");
+		addr_size = sizeof(from_addr);
+		str_len = recvfrom(clint_sock, message, BUFSIZE, 0, (struct sockaddr*)&from_addr, &addr_size);
+		message[str_len]=0;
+		printf("서버로부터 전송된 메시지: %s\n",message);
 	}
-	sleep(1);
-	while(1)
-	{
-		clnt_addr_size = sizeof(clnt_addr);
-		sleep(1);
-		str_len = recvfrom(serv_sock, message, BUFSIZE, 0, (struct sockaddr*)&clnt_addr, &clnt_addr_size);
-		printf("수신번호 : %d\n",num++);
-		sendto(serv_sock, message, str_len, 0, (struct sockaddr *) &clnt_addr, sizeof(clnt_addr));
-	}
+	close(clint_sock);
 	return 0;
 }
 
