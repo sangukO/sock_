@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 		str_len=write(sock, message, strlen(message));
 
 		recv_len=0;
+		//echo 서버의 문제점 해결
 		while(recv_len<str_len)
 		{
 			recv_cnt=read(sock, &message[recv_len], BUF_SIZE-1);
