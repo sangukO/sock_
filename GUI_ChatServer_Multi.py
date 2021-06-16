@@ -24,7 +24,7 @@ class MultiChatServer:
             t = Thread(target=self.receive_messages, args=(c_socket,))
             t.start()
 
-    def receive_message(self, c_socket):
+    def receive_messages(self, c_socket):
         while True:
             try:
                 incoming_message = c_socket.recv(1024)

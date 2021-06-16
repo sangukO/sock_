@@ -24,7 +24,7 @@ class ChatClient:
         '''
         message를 전송하는 callback함수
         '''
-        senders_name = self.name_widget.get().strip()+"+"
+        senders_name = self.name_widget.get().strip()+":"
         data = self.enter_text_widget.get(1.0, 'end').strip()
         message = (senders_name + data).encode('utf-8')
         self.chat_transcript_area.insert('end', message.decode('utf-8') + '\n')
